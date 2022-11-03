@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This is Cui's message channel</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>Account Record Id which is selected.</description>
+        <fieldName>recordId</fieldName>
+    </lightningMessageFields>
+    <masterLabel>CuiAccountMessageChannel</masterLabel>
+</LightningMessageChannel>
