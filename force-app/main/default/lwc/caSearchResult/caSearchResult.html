@@ -1,0 +1,16 @@
+<template>
+    <lightning-tabset variant="scoped" selected-tab-id="tab2" >
+        <lightning-tab label="Gallery" id="tab1">
+        </lightning-tab>
+        <lightning-tab label="Account List" id="tab2">
+            <template if:true={accounts} >
+                <div class="slds-scrollable_y">
+                    <lightning-datatable key-field="Id" data={accounts} columns={columns}></lightning-datatable>
+                </div>
+            </template>
+        </lightning-tab>
+        <lightning-tab label="Releated List" id="tab3">
+            
+        </lightning-tab>
+    </lightning-tabset>
+</template>
