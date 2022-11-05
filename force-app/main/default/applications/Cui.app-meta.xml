@@ -13,6 +13,7 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Cui</label>
     <navType>Standard</navType>
+    <tabs>CAccountSearch</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Cui_UtilityBar</utilityBar>
 </CustomApplication>
