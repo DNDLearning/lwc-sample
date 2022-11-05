@@ -1,13 +1,13 @@
 <template>
     <lightning-layout multiple-rows>
-        <lightning-layout-item>
+        <lightning-layout-item size="12">
             <lightning-card title="Sarch Account">
                 <p class="slds-var-p-horizontal_small">
                     <c-ca-search-form onsearch={searchAccounts}></c-ca-search-form>
                 </p>
             </lightning-card>
         </lightning-layout-item>
-        <lightning-layout-item>
+        <lightning-layout-item size="12">
             <template if:true={isLoading}>
                 <lightning-spinner alternative-text="Loading..." variant="Brand"></lightning-spinner>
             </template>

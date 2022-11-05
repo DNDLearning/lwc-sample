@@ -1,13 +1,22 @@
 <template>
-    <lightning-tabset variant="scoped" selected-tab-id="tab2" >
-        <lightning-tab label="Gallery" id="tab1">
-        </lightning-tab>
+    <lightning-tabset variant="scoped"  >
         <lightning-tab label="Account List" id="tab2">
             <template if:true={accounts} >
                 <div class="slds-scrollable_y">
-                    <lightning-datatable key-field="Id" data={accounts} columns={columns}></lightning-datatable>
+                    <lightning-datatable 
+                        key-field="Id" 
+                        data={accounts} 
+                        columns={columns}
+                        show-row-number-column
+                        hide-checkbox-column
+                        onrowaction={handleRowAction}
+                        >
+                    </lightning-datatable>
                 </div>
             </template>
+        </lightning-tab>
+        <lightning-tab label="Gallery" id="tab1">
+
         </lightning-tab>
         <lightning-tab label="Releated List" id="tab3">
             
