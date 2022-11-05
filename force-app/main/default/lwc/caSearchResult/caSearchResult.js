@@ -1,5 +1,6 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getAccountByType from '@salesforce/apex/AccountDataService.getAccountByType';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 const actions = [
     { label: 'Show details', name: 'show_details' },
@@ -66,19 +67,20 @@ export default class CaSearchResult extends LightningElement {
     
     //
     handleRowAction(event) {
-        console.log(' >>>>>>>>>>>>>>  >>>>>>>>>>>>>>>>> ');
+        console.log(' >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ');
         console.log(event.detail);
-        let actionName = event.detail.action;
+        let actionName = event.detail.action.name;
         let row = event.detail.row;
-        if (actionName == 'show_details') {
+        if (actionName === 'show_details') {
             this.showRowDetails(row);
-        } else if (actionName == 'delete') {
+        } else if (actionName === 'delete') {
             this.deleteRow(row);
         }
     }
 
     //
     showRowDetails(row) {
+        console.log('show toast event!');
         const detailMessage = new ShowToastEvent({
             title: 'Show Details',
             message: 'Record {0} Detail Shows. See it {1}',
@@ -87,8 +89,9 @@ export default class CaSearchResult extends LightningElement {
                 {
                     url: 'www.baidu.com',
                     label: 'here'
-                }
-            ]
+                },
+            ],
+            variant: 'success'
         });
         this.dispatchEvent(detailMessage);
 
@@ -98,7 +101,8 @@ export default class CaSearchResult extends LightningElement {
     deleteRow(row) {
         const deleteMessage = new ShowToastEvent({
             title: 'Delete Record!',
-            Message: 'Selected record deleted.'
+            message: 'Selected record deleted.',
+            variant: 'warning'
         });
         this.dispatchEvent(deleteMessage);
     }
