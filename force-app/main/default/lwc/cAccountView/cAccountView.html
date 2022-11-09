@@ -1,0 +1,13 @@
+<template>
+    <lightning-card>
+        <lightning-button label="Edit" slot="actions"></lightning-button>
+        <lightning-record-view-form record-id={accId} object-api-name="Account">
+            <div class="slds-box slds-theme_default"> 
+                <lightning-output-field field-name="Name"></lightning-output-field>
+                <lightning-output-field field-name="Type"></lightning-output-field>
+                <lightning-output-field field-name="BillingAddress"></lightning-output-field>
+                <lightning-output-field field-name="AnnualRevenue"></lightning-output-field>
+            </div>
+        </lightning-record-view-form>
+    </lightning-card>
+</template>
