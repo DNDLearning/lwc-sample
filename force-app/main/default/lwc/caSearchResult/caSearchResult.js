@@ -1,6 +1,9 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getAccountByType from '@salesforce/apex/AccountDataService.getAccountByType';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { publish, MessageContext } from 'lightning/messageService'
+
+import CAMC from '@salesforce/messageChannel/CuiAccountMessageChannel__c';
 
 const actions = [
     { label: 'Show details', name: 'show_details' },
@@ -38,6 +41,9 @@ export default class CaSearchResult extends LightningElement {
 
     isLoading = false;
 
+    @wire(MessageContext)
+    messageContext;
+
     @wire(getAccountByType, { type: '$acTypeId' })
     wiredAccount({data, error}) {
         if (data) {
@@ -63,6 +69,20 @@ export default class CaSearchResult extends LightningElement {
         } else {
             this.dispatchEvent(new CustomEvent('doneLoading'));
         }
+    }
+
+    handleRowSelection(event) {
+        let selectedRow = event.detail.selectedRows[0];
+        this.sendMessage(selectedRow.Id);
+        const rowMessage = new ShowToastEvent({
+            title: 'Selected Row',
+            message: 'Row selected.',
+        });
+        this.dispatchEvent(rowMessage);
+    }
+
+    sendMessage(selectedId) {
+        publish(this.messageContext, CAMC, { recordId: selectedId});
     }
     
     //
