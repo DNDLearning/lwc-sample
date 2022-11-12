@@ -1,0 +1,20 @@
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="12">
+            <lightning-card >
+                <lightning-file-upload
+                    title="File Upload"
+                    record-id={recordId}
+                    label="Attach receipt"
+                    accept={acceptedFormats}
+                    onuploadfinished={handleUploadFinished}
+                    multiple
+                >
+                </lightning-file-upload>
+            </lightning-card>
+        </lightning-layout-item>
+        <lightning-layout-item>
+            <!-- file list here. -->
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

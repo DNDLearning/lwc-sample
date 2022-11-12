@@ -1,6 +1,5 @@
 import { api, LightningElement, wire, track } from 'lwc';
-import { subscribe, MessageContext, APPLICATION_SCOPE } from 'lightning/messageService';
-import { getRecord } from 'lightning/uiRecordApi';
+import { subscribe, unsubscribe, MessageContext, APPLICATION_SCOPE } from 'lightning/messageService';
 
 import NAME_FIELD from '@salesforce/schema/Account.Name';
 import TYPE_FIELD from '@salesforce/schema/Account.Type';
@@ -58,6 +57,11 @@ export default class CAccountView extends LightningElement {
             (message) =>  { this.recordId = message.recordId },
             {scope: APPLICATION_SCOPE }
         )
+    }
+
+    disconnectedCallback() {
+        unsubscription(this.subscription);
+        this.subscription = null;
     }
 
 }

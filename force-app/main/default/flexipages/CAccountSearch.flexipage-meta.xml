@@ -17,6 +17,12 @@
                 <identifier>c_cAccountView</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>cFileUpload</componentName>
+                <identifier>c_cFileUpload</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>column2</name>
         <type>Region</type>
     </flexiPageRegions>
