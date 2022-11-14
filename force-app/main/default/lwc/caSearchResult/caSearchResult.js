@@ -1,17 +1,18 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import getAccountByType from '@salesforce/apex/AccountDataService.getAccountByType';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { publish, MessageContext } from 'lightning/messageService'
+import { NavigationMixin } from 'lightning/navigation';
+import { publish, MessageContext } from 'lightning/messageService';
 
 import CAMC from '@salesforce/messageChannel/CuiAccountMessageChannel__c';
 
 const actions = [
     { label: 'Show details', name: 'show_details' },
-    { label: 'Delete', name: 'delete' }
+    { label: 'Delete', name: 'delete' },
 ];
 
 
-export default class CaSearchResult extends LightningElement {
+export default class CaSearchResult extends NavigationMixin( LightningElement ) {
 
     columns = [
         { label: 'Name', fieldName: 'Name', editable: true },
@@ -48,6 +49,10 @@ export default class CaSearchResult extends LightningElement {
     wiredAccount({data, error}) {
         if (data) {
             this.accounts = data;
+            console.log('Accounts length : ' + this.accounts.length);
+            if (this.accounts.length == 0) {
+                this.selectedAccountId = null;
+            }
         } else if (error) {
             console.log('data error: ');
             console.log(error);
@@ -82,12 +87,13 @@ export default class CaSearchResult extends LightningElement {
     }
 
     sendMessage(selectedId) {
+        console.log(`Selected Record Id : ` + selectedId );
         publish(this.messageContext, CAMC, { recordId: selectedId});
     }
     
     //
     handleRowAction(event) {
-        console.log(' >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ');
+        console.log(' >>>>>>>>>>>>>> event.detail >>>>>>>>>>>>>> ');
         console.log(event.detail);
         let actionName = event.detail.action.name;
         let row = event.detail.row;
@@ -100,7 +106,7 @@ export default class CaSearchResult extends LightningElement {
 
     //
     showRowDetails(row) {
-        console.log('show toast event!');
+        console.log('Navigate to detail:' + event.detail.row.Id);
         const detailMessage = new ShowToastEvent({
             title: 'Show Details',
             message: 'Record {0} Detail Shows. See it {1}',
@@ -115,6 +121,14 @@ export default class CaSearchResult extends LightningElement {
         });
         this.dispatchEvent(detailMessage);
 
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: event.detail.row.Id,
+                objectApiName: 'Account',
+                actionName: 'view'
+            }
+        });
     }
 
     //

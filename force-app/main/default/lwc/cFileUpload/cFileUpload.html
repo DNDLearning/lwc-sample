@@ -1,0 +1,35 @@
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="12">
+            <lightning-card >
+                <lightning-file-upload
+                    title="File Upload"
+                    record-id={recordId}
+                    label="Attach receipt"
+                    accept={acceptedFormats}
+                    onuploadfinished={handleUploadFinished}
+                    multiple
+                    disabled={disabled}
+                >
+                </lightning-file-upload>
+            </lightning-card>
+        </lightning-layout-item>
+        <lightning-layout-item size="12">
+            <!-- file list here. -->
+            <lightning-card>
+                <template if:true={recordId}>
+                    <!-- <lightning-record-view-form record-id={recordId} object-api-name="ContentDocumentLink">
+                        <lightning-output-field field-name={Title}></lightning-output-field>
+                    </lightning-record-view-form> -->
+                    <lightning-datatable 
+                        key-field="Id"
+                        data={fileNames}
+                        columns={columns}
+                        hide-checkbox-column
+                        max-row-selection="1"
+                    ></lightning-datatable>
+                </template>
+            </lightning-card>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
