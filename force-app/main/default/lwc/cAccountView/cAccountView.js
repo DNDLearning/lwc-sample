@@ -1,5 +1,6 @@
 import { api, LightningElement, wire, track } from 'lwc';
 import { subscribe, unsubscribe, MessageContext, APPLICATION_SCOPE } from 'lightning/messageService';
+import { getRecord } from 'lightning/uiRecordApi';
 
 import NAME_FIELD from '@salesforce/schema/Account.Name';
 import TYPE_FIELD from '@salesforce/schema/Account.Type';
@@ -31,15 +32,15 @@ export default class CAccountView extends LightningElement {
     account;
     error = undefined;
 
-    // @wire(getRecord, {recordId: '$recordId', fields: ACC_FIELDS})
-    // wiredAccount({data, error}){
-    //     if (data) {
-    //         this.account = data;
-    //         this.error = undefined;
-    //     } else {
-    //         this.error = error;
-    //     }
-    // };
+    @wire(getRecord, {recordId: '$recordId', fields: ACC_FIELDS})
+    wiredAccount({data, error}){
+        if (data) {
+            this.account = data;
+            this.error = undefined;
+        } else {
+            this.error = error;
+        }
+    };
 
     connectedCallback() {
         this.subscribeMC();
@@ -60,7 +61,7 @@ export default class CAccountView extends LightningElement {
     }
 
     disconnectedCallback() {
-        unsubscription(this.subscription);
+        unsubscribe(this.subscription);
         this.subscription = null;
     }
 
