@@ -3,6 +3,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>saiCsvImporter</componentName>
+                <identifier>c_saiCsvImporter</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>caSearch</componentName>
                 <identifier>c_caSearch</identifier>
             </componentInstance>

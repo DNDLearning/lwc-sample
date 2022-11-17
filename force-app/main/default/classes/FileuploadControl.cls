@@ -47,4 +47,65 @@ public with sharing class FileuploadControl {
         }
         return mapIdTitle;
     }
+
+    @AuraEnabled
+    public static String readFileFromRecord(String recordId) {
+        ContentDocumentLink docLink = [
+            SELECT Id, ContentDocumentId, ContentDocument.Description, ContentDocument.Title, LinkedEntityId
+              FROM ContentDocumentLink
+             WHERE LinkedEntityId = :recordId
+             LIMIT 1
+        ];
+
+        ContentVersion doc = [
+            SELECT VersionData FROM ContentVersion
+             WHERE ContentDocumentId = :docLink.ContentDocumentId AND IsLatest = true
+             LIMIT 1
+        ];
+
+        return EncodingUtil.base64Encode(doc.VersionData);
+    }
+
+    @AuraEnabled
+    public static List<Account> importAccount(string docId){
+        System.debug('docId ==> ' + docId);
+        // read content from ContentVersion
+        ContentVersion cv = [
+            SELECT Title, VersionData, FileExtension 
+              FROM ContentVersion 
+             WHERE ContentDocumentId = :docId
+               AND IsLatest = true
+             LIMIT 1
+        ];
+
+        // split using line feed
+        List<String> lines = cv.VersionData.toString().split('\n');
+
+
+        List<Account> accList = new List<Account>();
+        // loop line and create account object -- skip header
+        for (Integer i = 1; i < lines.size(); i++) {
+            String line = lines.get(i);
+            System.debug('line ==> ' + line);
+            List<String> columns = line.split(',');
+
+            Account acc = new Account( 
+                Name = columns[0],
+                AccountSource = columns[1],
+                Site = columns[2],
+                Type = columns[3],
+                Website = columns[4]
+            );
+            accList.add(acc);
+        }
+
+        // insert account
+        if (accList.size() > 0) {
+            insert accList;
+        }
+
+        // query account and return
+        return accList;
+    }
+    
 }

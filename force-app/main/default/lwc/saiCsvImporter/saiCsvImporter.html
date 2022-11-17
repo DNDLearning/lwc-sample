@@ -1,0 +1,14 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item size="12">
+            <lightning-card >
+                <lightning-file-upload
+                    label="Upload CSV"
+                    name="CSVUImporter"
+                    accept={appceptedFormats}
+                    onuploadfinished={handleUploadFinished}
+                ></lightning-file-upload>
+            </lightning-card>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
