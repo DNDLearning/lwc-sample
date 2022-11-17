@@ -1,0 +1,19 @@
+<template>
+    <lightning-card >
+        <lightning-file-upload
+            label="Select excel file to import."
+            name="saiExcelImporter1"
+            accept={appcepedFormats}
+            onuploadfinished={handleUploadFinished}
+        ></lightning-file-upload>
+    </lightning-card>
+    <lightning-card>
+        <lightning-input 
+            type="file" 
+            label="Select excel file to import."
+            name="saiExcelImporter2"
+            accept={appcepedFormats}
+            onchange={handleUploadFinished}>
+        </lightning-input>
+    </lightning-card>
+</template>
