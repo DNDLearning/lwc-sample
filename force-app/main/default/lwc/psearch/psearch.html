@@ -1,0 +1,45 @@
+<!-- sldsValidatorIgnore -->
+<template>
+  <lightning-card title="検索">
+    <lightning-layout
+      multiple-rows="true"
+      horizontal-align="space"
+      vertical-align="stretch"
+    >
+      <lightning-layout-item size="12" padding="around-small">
+        <lightning-combobox
+          name="type"
+          label="検索対象:Lead/Acc/con"
+          value={value}
+          placeholder="Select type"
+          options={options}
+          onchange={handleChange}
+        ></lightning-combobox>
+        <p>Selected value is: {value}</p>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" padding="around-small">
+        <lightning-input
+          name="enter-search"
+          label=""
+          type="search"
+          onchange={handelsearchtext}
+          value={searchText}
+        >
+        </lightning-input>
+      </lightning-layout-item>
+
+      <template if:true={resultCount}>
+        <div class="">検索結果：{resultCount}件を見つかりました</div>
+      </template>
+
+      <lightning-layout-item size="12" padding="around-small">
+        <h3>c-p-Data-Table</h3>
+        <c-p-Data-Table
+          search-text={searchText}
+          onserchresultcount={setResultCount}
+        ></c-p-Data-Table>
+      </lightning-layout-item>
+    </lightning-layout>
+  </lightning-card>
+</template>

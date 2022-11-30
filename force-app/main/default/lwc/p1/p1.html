@@ -1,3 +1,143 @@
 <template>
+  <div class="slds-text-heading_large">SLDS:Layout</div>
+<div class="c-container">
     
+  <p class="p_contxt" title="Abcd" onclick={changtitle} >ss{privateTitle}</p>
+
+  <lightning-layout   multiple-rows="true"  >
+      <lightning-layout-item padding="around-small" size="12" >
+              <p class="slds-box slds-text-align_right "> 
+                <lightning-button label="Neutral" title="Non-primary action" icon-name="utility:download"
+                class="">
+              </lightning-button>
+            </p>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-small" size="12">
+              <p class="slds-box slds-text-align_center ">2</p>
+      </lightning-layout-item>
+
+
+      <lightning-layout-item padding="around-small" size="12">
+              <lightning-layout>
+                    <lightning-layout-item padding="around-small" size="6">
+                      <p class="slds-box slds-text-align_center  ">3</p>
+                  </lightning-layout-item>
+                  <lightning-layout-item padding="around-small" size="6">
+                    <p class="slds-box slds-text-align_center ">4</p>
+                    </lightning-layout-item>
+             </lightning-layout>
+      </lightning-layout-item>
+  </lightning-layout>
+</div>
+
+<div class="slds-text-heading_large">SLDS: 手风琴  Input</div>
+<div class="c-container">
+  <lightning-layout   multiple-rows="true"  >
+      <lightning-layout-item padding="around-small" size="12" >
+        <p class="slds-text-heading_small">{activeSectionMessage}</p>
+
+        <lightning-button onclick={handleSetActiveSectionC} label="Open Section C"></lightning-button>
+    
+        <lightning-accordion class="example-accordion"
+                             onsectiontoggle={handleToggleSection}
+                             active-section-name="A">
+            <lightning-accordion-section name="A" label="Accordion Title A">
+                <lightning-button-menu slot="actions"
+                                      alternative-text="Show menu"
+                                      icon-size="x-small"
+                                      menu-alignment="right">
+                    <lightning-menu-item value="New" label="Menu Item One"></lightning-menu-item>
+                    <lightning-menu-item value="Edit" label="Menu Item Two"></lightning-menu-item>
+                </lightning-button-menu>
+
+           <div class="slds-p-around_medium lgc-bg">
+              <lightning-input type="text" label="Default/basic btn"></lightning-input>
+           </div>
+                <p>The section height expands to fit your content.</p>
+            </lightning-accordion-section>
+    
+            <lightning-accordion-section name="B" label="Accordion Title B">
+                <p>This is the content area for section B.</p>
+                <p>.</p>
+                <p>.</p>
+                <p>.</p>
+            </lightning-accordion-section>
+    
+            <lightning-accordion-section name="C" label="Accordion Title C">
+                <p>This is the content area for section C.</p>
+                <p>.</p>
+                
+            </lightning-accordion-section>
+        </lightning-accordion>
+     
+      </lightning-layout-item>
+
+
+  </lightning-layout>
+</div>
 </template>
+
+
+<!-- <template>
+  <div class="c-container">
+    <lightning-layout multiple-rows="true" horizontal-align={horizontalAlign}>
+      <lightning-layout-item padding="horizontal-medium" size="12">
+          <lightning-button label="Neutral" title="Non-primary action" icon-name="utility:download"
+            class="">
+          </lightning-button>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="horizontal-medium" size="12" >
+          <lightning-button label="Neutral" title="Non-primary action" icon-name="utility:download"
+            class="">
+          </lightning-button>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="horizontal-medium" >
+
+      <lightning-layout>
+        <lightning-layout-item padding="around-small">
+            <div class="page-section ">     
+              <h2>lightning-accordion </h2>
+                <div class="c-container-accordion">
+                  <lightning-accordion class="example-accordion" onsectiontoggle={handleToggleSection} active-section-name="[A B C]">
+                    <lightning-accordion-section name="A" label="Accordion Title A">
+                    <lightning-button-menu slot="actions" alternative-text="Show menu" icon-size="x-small" menu-alignment="right">
+                      <lightning-menu-item value="New" label="Menu Item One"></lightning-menu-item>
+                      <lightning-menu-item value="Edit" label="Menu Item Two"></lightning-menu-item>
+                    </lightning-button-menu>
+                    <p>This is the content area for section A.</p>
+                    <p>.s</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>The section height expands to fit your content.</p>
+                  </lightning-accordion-section>
+              
+                  <lightning-accordion-section name="B" label="Accordion Title B">
+                    <p>This is the content area for section B.</p>
+                    <p>.</p>
+                    
+                    <p>The section height expands to fit your content.</p>
+                  </lightning-accordion-section>
+              
+                  <lightning-accordion-section name="C" label="Accordion Title C">
+                    <p>This is the content area for section C.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>The section height expands to fit your content.</p>
+                  </lightning-accordion-section>
+                </lightning-accordion>
+              </div>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+  </lightning-layout-item>
+
+
+  </lightning-layout> 
+  </div>
+
+  
+</template> -->

@@ -1,0 +1,11 @@
+
+.c-container {
+  border: 1px solid #90b4f5;
+  margin: 10px 0 20px 0;
+
+}
+.p_contxt{
+  border: 1px solid black;
+  width: 200px;
+  text-overflow: clip;
+}

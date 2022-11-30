@@ -1,0 +1,24 @@
+<template>
+  <lightning-layout multiple-rows="true">
+    <lightning-layout-item size="12" padding="around-small">
+      <div>
+        <h1>Test</h1>
+        <template if:true={contacts}>
+          <lightning-datatable
+            key-field="Id"
+            data={contacts}
+            columns={columns}
+            onrowaction={handleRowAction}
+            onrowselection={handleSelectedTitle}
+            column-widths-mode="auto"
+          >
+            <!--  hide-checkbox-column-->
+          </lightning-datatable>
+        </template>
+        <template if:true={error}>
+          <c-error-panel errors={error}></c-error-panel>
+        </template>
+      </div>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

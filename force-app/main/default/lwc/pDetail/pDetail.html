@@ -1,0 +1,71 @@
+<template>
+  <lightning-card title="利用标准控件增删改记录" icon-name="custom:custom67">
+    <template if:true={rowID}>
+      <h1>利用lightning-record-form的自动提交更新</h1>
+      <lightning-record-form
+        object-api-name={apiName}
+        record-id={rowID}
+        fields={fields}
+      >
+      </lightning-record-form>
+    </template>
+
+    <template if:true={rowID}>
+      <h1>利用lightning-record-edit-form,按钮提交更新,可自定义布局</h1>
+      <lightning-record-edit-form object-api-name={apiName} record-id={rowID}>
+        <lightning-messages> </lightning-messages>
+        <lightning-input-field field-name={cTitleField}>
+        </lightning-input-field>
+
+        <lightning-input-field field-name={cMailField}> </lightning-input-field>
+        <div class="slds-var-m-top_medium">
+          <lightning-button variant="brand" type="submit" label="Update">
+          </lightning-button>
+        </div>
+      </lightning-record-edit-form>
+    </template>
+
+    <template if:true={rowID}>
+      <h1>
+        利用lightning-record-edit-form,新建记录(record-id
+        不设置就时新建),,可自定义布局
+      </h1>
+      <lightning-record-edit-form
+        object-api-name={apiName}
+        onclick={handleClick}
+        onsubmit={handleSubmit}
+        onsuccess={handleSucess}
+      >
+        <div class="slds-var-m-top_medium">
+          <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-2">
+              <lightning-input-field field-name={cNameField}>
+              </lightning-input-field>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+              <lightning-input-field
+                field-name={cMailField}
+                value="@daodao.com"
+                class="newField"
+              >
+              </lightning-input-field>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+              <lightning-input-field field-name={cMailField} class="newField">
+              </lightning-input-field>
+            </div>
+          </div>
+          <lightning-button variant="brand" type="submit" label="新创建记录">
+          </lightning-button>
+        </div>
+      </lightning-record-edit-form>
+    </template>
+
+    <template if:true={error}>
+      <c-error-panel errors={error}></c-error-panel>
+    </template>
+    <c-view-source source="lwc/wireGetRecord" slot="footer">
+      Get a record's data using @wire
+    </c-view-source>
+  </lightning-card>
+</template>
