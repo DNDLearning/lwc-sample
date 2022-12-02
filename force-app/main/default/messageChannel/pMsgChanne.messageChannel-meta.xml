@@ -7,4 +7,10 @@
     <fieldName>recordId</fieldName>
     <description>This is the record Id that changed</description>
   </lightningMessageFields>
+
+  <lightningMessageFields>
+    <fieldName>delFlag</fieldName>
+    <description>This is the record Deled Flag</description>
+  </lightningMessageFields>
+
 </LightningMessageChannel>

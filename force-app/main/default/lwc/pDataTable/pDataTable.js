@@ -1,7 +1,7 @@
 import { LightningElement, wire, api } from "lwc";
 import findContacts from "@salesforce/apex/ContactController.findContacts";
 import { getFieldValue, deleteRecord } from "lightning/uiRecordApi";
-import { refreshApex } from "@salesforce/apex";
+import { refreshApex, getRecordNotifyChange } from "@salesforce/apex";
 
 // Import message service features required for publishing and the message channel
 import { publish, MessageContext } from "lightning/messageService";
@@ -42,7 +42,8 @@ const COLS = [
   {
     label: "Action",
     type: "action",
-    typeAttributes: { rowActions: actions, menuAlignment: "left" }
+    fixedWidth: 80,
+    typeAttributes: { rowActions: actions, menuAlignment: "right" }
   }
 ];
 //延迟调用查询数据库方法,
@@ -57,6 +58,8 @@ export default class PDataTable extends LightningElement {
   searchTextForRefresh = "";
   name;
   wiredfindcontactsResult;
+
+  payload;
 
   //serchResultCount;
   @wire(findContacts, { searchText: "$_searchText" })
@@ -121,28 +124,31 @@ export default class PDataTable extends LightningElement {
 
   //本方法只是为了模拟dataTabale上的单击和行Action的示例代码,不具有实际的显示删除功能
   handleRowAction(event) {
-    //如果在画面上点击的是Titel(button类型),则action返回的是发生点击行的记录信息
-    const row = event.detail.row;
-    //publishing message
-    const payload = { recordId: row.Id };
-    publish(this.messageContext, RECORD_CHICK_CHANNEL, payload);
-
     //如果在画面上选择的下拉按钮的Action在会返回这个action的name
+
     const action = event.detail.action;
+    const row = event.detail.row;
+
+    if (!action.name) {
+      //publishing message
+      this.payload = { recordId: row.Id, delFlag: false };
+      publish(this.messageContext, RECORD_CHICK_CHANNEL, this.payload);
+    }
 
     //得到当前行的所在的Index
-    const rows = this.contacts;
-    const rowIndex = rows.findIndex((item) => item.Id === row.Id);
+    // const rows = this.contacts;
+    // const rowIndex = rows.findIndex((item) => item.Id === row.Id);
 
     switch (action.name) {
       case "show_details":
-        console.log("Showing Details: " + JSON.stringify(row));
+        console.log("Showing Details: " + JSON.stringify(event.detail.row));
         break;
       case "delete":
         this.deleteCruntRow(row.Id);
-        rows.splice(rowIndex, 1);
-        this.contacts = rows;
-        this._searchText = " ";
+
+        //publish(this.messageContext, RECORD_CHICK_CHANNEL, "");
+        // rows.splice(rowIndex, 1);
+        // this.contacts = rows;
 
         break;
 
@@ -160,8 +166,14 @@ export default class PDataTable extends LightningElement {
             variant: "success"
           })
         );
+
+        this.payload = { delFlag: true };
+        publish(this.messageContext, RECORD_CHICK_CHANNEL, this.payload);
+        this.payload = false;
+
         //キャッシュ更新
         refreshApex(this.wiredfindcontactsResult);
+        getRecordNotifyChange([{ recordId: this.recordId }]);
         // Navigate to a record home page after
         // the record is deleted, such as to the
         // contact home page

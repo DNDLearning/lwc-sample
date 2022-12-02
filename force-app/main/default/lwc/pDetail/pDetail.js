@@ -1,4 +1,4 @@
-import { LightningElement, api, wire } from "lwc";
+import { LightningElement, api, wire, track } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 import { subscribe, MessageContext } from "lightning/messageService";
@@ -9,13 +9,13 @@ import FIRSTNAME_FIELD from "@salesforce/schema/Contact.FirstName";
 import LASTNAME_FIELD from "@salesforce/schema/Contact.LastName";
 import TITLE_FIELD from "@salesforce/schema/Contact.Title";
 import EMAIL_FIELD from "@salesforce/schema/Contact.Email";
-import { getRecord } from "lightning/uiRecordApi";
+import { getRecord, getRecordNotifyChange } from "lightning/uiRecordApi";
 
 export default class PDetail extends LightningElement {
   subscription = null;
 
   record;
-  recordId;
+
   rowID;
   apiName;
 
@@ -28,12 +28,17 @@ export default class PDetail extends LightningElement {
 
   //用于lightning-record-edit-form的字段名
   cNameField = CONTACT_NAME;
+  cFirstName = FIRSTNAME_FIELD;
+  cLastName = LASTNAME_FIELD;
   cTitleField = TITLE_FIELD;
   cMailField = EMAIL_FIELD;
 
   //新规记录的ID
   newRecordID;
 
+  ShowFlag;
+
+  recordId = "";
   @wire(getRecord, {
     recordId: "$recordId",
     fields: [
@@ -56,6 +61,7 @@ export default class PDetail extends LightningElement {
       this.rowID = id;
       this.Email = Email.value;
       this.Name = Name.value;
+      this.error = undefined;
       // console.log( this.apiName,  this.id , this.Email,this.Name );
     } else if (error) {
       this.error = error;
@@ -79,11 +85,29 @@ export default class PDetail extends LightningElement {
 
   // Handler for message received by component
   handleMessage(message) {
+    //如果message.recordId是删除的ID,则重置控件为初始状态
+    console.log(message.recordId, message.delFlag);
+    if (message.delFlag) {
+      this.recordId = undefined;
+      this.rowId = undefined;
+    }
+    this.ShowFlag = !message.delFlag;
     this.recordId = message.recordId;
+    //this.rowID = message.recordId;
+    // if (this.ShowFlag) {
+    //   this.recordId = message.recordId;
+    //   this.ShowFlag = true;
+    // }
+
+    // if (message.recordId) {
+    //   this.recordId = message.recordId;
+    // }
   }
 
   // Standard lifecycle hooks used to sub/unsub to message channel
   connectedCallback() {
+    // this.rowID = undefined;
+
     this.subscribeToMessageChannel();
   }
 
@@ -102,12 +126,31 @@ export default class PDetail extends LightningElement {
     // fields.Street = '32 Prince Street';
     // this.template.querySelector('lightning-record-edit-form').submit(fields);
   }
+
+  handleUpdate() {
+    // Notify LDS that you've changed the record outside its mechanisms.
+    getRecordNotifyChange([{ recordId: this.recordId }]);
+    this.showNotification("Update Record", "Update OK~~", "success");
+  }
+
   handleSucess(event) {
     console.log("Sucess!" + event.target);
     this.newRecordID = event.detail.id;
-    this.showNotification();
+    this.showNotification(
+      "Creat Record",
+      `ID:${this.newRecordID} created Succsess!`,
+      "success"
+    );
+    // Notify LDS that you've changed the record outside its mechanisms.
+    getRecordNotifyChange([{ recordId: this.newRecordID }]);
     //清空创建成功的字段值
     this.resetNewfield();
+  }
+
+  handleError(event) {
+    event.preventDefault();
+    const errMsg = JSON.stringify(event.detail);
+    console.log("error is need solult~!" + errMsg);
   }
 
   resetNewfield() {
@@ -119,11 +162,11 @@ export default class PDetail extends LightningElement {
     }
   }
 
-  showNotification() {
+  showNotification(title, message, variant) {
     const evt = new ShowToastEvent({
-      title: "创建记录",
-      message: `ID:${this.newRecordID} 创建成功~!`,
-      variant: "success"
+      title: title,
+      message: message, //`ID:${this.newRecordID} 创建成功~!`,
+      variant: variant // "success"
     });
     this.dispatchEvent(evt);
   }
