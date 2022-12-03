@@ -36,6 +36,8 @@ export default class CAccountView extends LightningElement {
     wiredAccount({data, error}){
         if (data) {
             this.account = data;
+            // let data2 = JSON.parse(JSON.stringify(data));
+            console.log('--------------- get record in account view ---------------');
             this.error = undefined;
         } else {
             this.error = error;

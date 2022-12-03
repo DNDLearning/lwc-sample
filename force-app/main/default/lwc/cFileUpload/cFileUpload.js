@@ -73,8 +73,6 @@ export default class CFileUpload extends NavigationMixin( LightningElement ) {
         this.fetchResults = result;
         const {data, error} = result;
         if (data) {
-            console.log('file uplaod files for recordId : ' + this.recordId);
-            console.log(data);
             this.fileNames = data.map( cd => {
                 return { 
                     Id: cd.ContentDocumentId,

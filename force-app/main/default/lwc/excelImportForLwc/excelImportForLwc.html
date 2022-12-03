@@ -1,0 +1,80 @@
+<template>
+
+	<lightning-card>
+		<h3 slot="title">
+            <lightning-icon icon-name="action:upload" size="small"></lightning-icon>
+            Account上传Demo
+        </h3>
+		<div class="slds-p-horizontal_small">
+
+			<lightning-accordion allow-multiple-sections-open
+                         active-section-name={activeSections}>
+        		<lightning-accordion-section name="tipSection" label="提示信息">
+					<lightning-layout multiple-rows="true">
+						<lightning-layout-item size="12">
+							<ul>
+								<li style="color: red;">每次最多可以操作5000条数据，如果超过5000条，需要分拆多个excel进行操作</li>
+							</ul>
+						</lightning-layout-item>
+					</lightning-layout>
+				</lightning-accordion-section>
+			</lightning-accordion>
+        	<lightning-layout multiple-rows="true">
+        		<lightning-layout-item size="12" padding="around-small">
+        			<div style="text-align: center;">
+        				请<a href={templateURL} target="_blank">点击此处</a>下载模板
+        			</div>
+        			
+        		</lightning-layout-item>
+        		
+        		<lightning-layout-item size="6">
+
+        			<lightning-input type="file" label="请选择附件" onchange={excelFileToJson} disabled={disableUploadButton} accept="xlsx" multiple="false" variant="label-inline"></lightning-input>
+					
+        			<template if:true={isFileUpload}>
+        				您上传的文件名称是： {fileName}
+        			</template>
+        		</lightning-layout-item>
+        		<lightning-layout-item size="6">
+        		</lightning-layout-item>
+        		<lightning-layout-item size="6">
+        			<lightning-button label="上传数据" onclick={uploadData} disabled={disableUploadResultButton}></lightning-button>
+        		</lightning-layout-item>
+        	</lightning-layout>
+        </div>
+	</lightning-card>
+
+	<template if:true={isShowErrorTable}>
+		<lightning-card title="错误信息详情列表">
+			<div class="slds-p-horizontal_small" style="height: 500px;">
+				<lightning-datatable
+	                key-field="index"
+	                data={errorTableList}
+	                hide-checkbox-column
+	                columns={errorTableHeader}>
+	        	</lightning-datatable>
+			</div>
+		</lightning-card>
+	</template>
+
+
+	<template if:true={isShowExcelTable}>
+		<lightning-card title="信息详情列表">
+			<div class="slds-p-horizontal_small" style="height: 500px;">
+				<lightning-datatable
+	                key-field="rowNumber"
+	                data={excelTableList}
+	                hide-checkbox-column
+	                columns={excelTableHeader}>
+	        	</lightning-datatable>
+			</div>
+		</lightning-card>
+	</template>
+
+
+	<template if:true={isShowSpinner}>
+		<div class="exampleHolder">
+	        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+	    </div>
+	</template>
+</template>
