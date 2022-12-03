@@ -13,7 +13,7 @@ import { getRecord, getRecordNotifyChange } from "lightning/uiRecordApi";
 
 export default class PDetail extends LightningElement {
   subscription = null;
-
+  //pytdtest
   record;
 
   rowID;
