@@ -86,11 +86,11 @@ export default class PDetail extends LightningElement {
   // Handler for message received by component
   handleMessage(message) {
     //如果message.recordId是删除的ID,则重置控件为初始状态
-    console.log(message.recordId, message.delFlag);
-    if (message.delFlag) {
-      this.recordId = undefined;
-      this.rowId = undefined;
-    }
+    // console.log(message.recordId, message.delFlag);
+    // if (message.delFlag) {
+    //   this.recordId = undefined;
+    //   this.rowId = undefined;
+    // }
     this.ShowFlag = !message.delFlag;
     this.recordId = message.recordId;
     //this.rowID = message.recordId;
