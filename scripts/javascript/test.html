@@ -1,0 +1,74 @@
+<!DOCTYPE html >
+<html>
+    <head>
+        <title>Test page.</title>
+    </head>
+    <body>
+        <h1 id="elem">Here is a blue man.</h1>
+        <p id="elemp">Here is a blue pman.</p>
+        <button type="button">Click Me!</button>
+
+        <label for="avatar">Choose a file:</label>
+        <input type="file" onchange="previewFile();" id="avatar" name="avatar" accept="image/png,image/jpeg">
+        <img src="" alt="User selected iamge.">
+
+
+        <div id="main">
+            <div id="card-00">This card is smaller.</div>
+            <div id="card-01">The width and height of this card is determined by its contents.</div>
+        </div>
+
+        <script>
+            setCurrentUrl();
+            console.log('The current url is: ' + url);
+
+            function setCurrentUrl() {
+                url = window.location.href;
+            }
+
+            document.body.addEventListener('click', (event) => { 
+                if (event.target.nodeName == 'BUTTON') { 
+                    console.log('button clicked!'); 
+                    // Q16
+                    const setLocalStorage = (storageKey, jsObject) => { window.localStorage.setItem(storageKey, JSON.stringify(jsObject)); } 
+                    setLocalStorage('TestKey', 'TestValue');
+                }
+            }); 
+
+            // -- Q34
+            function previewFile() {
+                const preview = document.querySelector('img');
+                const file = document.querySelector('input[type=file]').files[0];
+                let reader = new FileReader();
+                reader.addEventListener('load', () => {
+                    preview.src = reader.result;
+                }, false);
+                if (file) {
+                    reader.readAsDataURL(file);
+                    //reader.readAsArrayBuffer(file); // no error but dont display image.
+                }
+            }
+
+            // -- Q38
+            elem.addEventListener('update', function(event) {
+                //alert(event.detail.recordId);
+                alert(event.detail );
+            });
+            elem.dispatchEvent(new CustomEvent('update', {
+                //detail: { recordId: "123ABC" }
+                detail: "123ABC" 
+            }));
+
+            console.log(document.getElementById('card-01').getBoundingClientRect().width);
+
+            // -- Q54
+            function Car(maxSpeed, color) {
+                this.maxSpeed = maxSpeed;
+                this.color = color;
+            }
+            let carSpeed = document.getElementById('carSpeed');
+            debugger;
+            let fourWheels = new Car(carSpeed.value, 'red');
+        </script>
+    </body>
+</html>
