@@ -58,12 +58,10 @@ export default class PDetail extends LightningElement {
         id
       } = this.record;
       this.apiName = apiName;
-      //this.rowID = id;
       this.Email = Email.value;
       this.Name = Name.value;
       this.ShowFlag = true;
       this.error = undefined;
-      // console.log( this.apiName,  this.id , this.Email,this.Name );
     } else if (error) {
       this.error = error;
       this.record = undefined;
@@ -93,22 +91,12 @@ export default class PDetail extends LightningElement {
   // Handler for message received by component
   handleMessage(message) {
     //如果message.recordId是删除的ID,则重置控件为初始状态
-    // console.log(message.recordId, message.delFlag);
     if (message.delFlag) {
       this.recordId = "";
       return;
-    }
-    //this.ShowFlag = !message.delFlag;
-    this.recordId = message.recordId;
-    //this.rowID = message.recordId;
-    // if (this.ShowFlag) {
-    //   this.recordId = message.recordId;
-    //   this.ShowFlag = true;
-    // }
 
-    // if (message.recordId) {
-    //   this.recordId = message.recordId;
-    // }
+    this.recordId = message.recordId;
+
   }
 
   //提交表单时，组件将Click Submit Sucess 顺序触发自定义事件
