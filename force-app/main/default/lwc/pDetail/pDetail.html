@@ -1,10 +1,10 @@
 <template>
   <lightning-card title="利用标准控件增删改记录" icon-name="custom:custom67">
     <template if:true={ShowFlag}>
-      <h1>利用lightning-record-form的自动提交更新</h1>
+      <h1>利用lightning-record-form的自动提交更新dddd</h1>
       <lightning-record-form
         object-api-name={apiName}
-        record-id={rowID}
+        record-id={recordId}
         fields={fields}
         onsubmit={handleUpdate}
         onerror={handleError}
@@ -16,7 +16,7 @@
       <h1>利用lightning-record-edit-form,按钮提交更新,可自定义布局</h1>
       <lightning-record-edit-form
         object-api-name={apiName}
-        record-id={rowID}
+        record-id={recordId}
         onsubmit={handleUpdate}
         onerror={handleError}
       > 
@@ -34,7 +34,7 @@
     <template if:true={ShowFlag}>
       <h1>
         利用lightning-record-edit-form,新建记录(record-id
-        不设置就时新建),,可自定义布局
+        不设值时就新建),可自定义布局
       </h1>
       <lightning-record-edit-form
         object-api-name={apiName}

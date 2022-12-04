@@ -13,10 +13,10 @@ import { getRecord, getRecordNotifyChange } from "lightning/uiRecordApi";
 
 export default class PDetail extends LightningElement {
   subscription = null;
-  //pytdtest
+
   record;
 
-  rowID;
+  // rowID;
   apiName;
 
   //用于直接在画面上显示(不在Form组件里)
@@ -36,7 +36,7 @@ export default class PDetail extends LightningElement {
   //新规记录的ID
   newRecordID;
 
-  ShowFlag;
+  ShowFlag = false;
 
   recordId = "";
   @wire(getRecord, {
@@ -58,9 +58,10 @@ export default class PDetail extends LightningElement {
         id
       } = this.record;
       this.apiName = apiName;
-      this.rowID = id;
+      //this.rowID = id;
       this.Email = Email.value;
       this.Name = Name.value;
+      this.ShowFlag = true;
       this.error = undefined;
       // console.log( this.apiName,  this.id , this.Email,this.Name );
     } else if (error) {
@@ -73,6 +74,12 @@ export default class PDetail extends LightningElement {
   // implicitly during the component descruction lifecycle.
   @wire(MessageContext)
   messageContext;
+
+  // Standard lifecycle hooks used to sub/unsub to message channel
+  connectedCallback() {
+    this.subscribeToMessageChannel();
+    this.ShowFlag = false;
+  }
 
   // Encapsulate logic for LMS subscribe.
   subscribeToMessageChannel() {
@@ -87,11 +94,11 @@ export default class PDetail extends LightningElement {
   handleMessage(message) {
     //如果message.recordId是删除的ID,则重置控件为初始状态
     // console.log(message.recordId, message.delFlag);
-    // if (message.delFlag) {
-    //   this.recordId = undefined;
-    //   this.rowId = undefined;
-    // }
-    this.ShowFlag = !message.delFlag;
+    if (message.delFlag) {
+      this.recordId = "";
+      return;
+    }
+    //this.ShowFlag = !message.delFlag;
     this.recordId = message.recordId;
     //this.rowID = message.recordId;
     // if (this.ShowFlag) {
@@ -102,13 +109,6 @@ export default class PDetail extends LightningElement {
     // if (message.recordId) {
     //   this.recordId = message.recordId;
     // }
-  }
-
-  // Standard lifecycle hooks used to sub/unsub to message channel
-  connectedCallback() {
-    // this.rowID = undefined;
-
-    this.subscribeToMessageChannel();
   }
 
   //提交表单时，组件将Click Submit Sucess 顺序触发自定义事件

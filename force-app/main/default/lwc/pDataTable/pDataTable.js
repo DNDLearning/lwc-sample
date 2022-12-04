@@ -133,6 +133,7 @@ export default class PDataTable extends LightningElement {
       //publishing message
       this.payload = { recordId: row.Id, delFlag: false };
       publish(this.messageContext, RECORD_CHICK_CHANNEL, this.payload);
+      return;
     }
 
     //得到当前行的所在的Index
@@ -162,14 +163,13 @@ export default class PDataTable extends LightningElement {
         this.dispatchEvent(
           new ShowToastEvent({
             title: "Success",
-            message: "Record deleted",
+            message: "Record is deleted",
             variant: "success"
           })
         );
 
-        this.payload = { delFlag: true };
+        this.payload = { recordId: CruntRowID, delFlag: true };
         publish(this.messageContext, RECORD_CHICK_CHANNEL, this.payload);
-        this.payload = false;
 
         //キャッシュ更新
         refreshApex(this.wiredfindcontactsResult);
